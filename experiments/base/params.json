@@ -1,0 +1,16 @@
+{
+    "learning_rate": 0.001,
+    "batch_size": 10,
+    "num_epochs": 10,
+
+    "embedding_dim": 1280,
+    "hidden_dim": 640,
+    "number_of_class":12,
+
+    "save_summary_steps": 100,
+
+    "embeding_model_name":"esm2_t33_650M_UR50D",
+    "embeding_tokens_per_batch":16384,
+    "embeding_seq_length":1536,
+    "embeding_repr_layers_number":33
+}
