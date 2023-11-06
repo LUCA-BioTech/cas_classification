@@ -8,6 +8,7 @@ import numpy as np
 import torch
 import utils
 import model.net as net
+from model.focalloss import FocalLoss
 from model.data_loader import DataLoader
 
 parser = argparse.ArgumentParser()
@@ -98,7 +99,13 @@ if __name__ == '__main__':
     # Define the model
     model = net.Net(params).cuda() if params.cuda else net.Net(params)
     
-    loss_fn = net.loss_fn
+    #构造loss
+    class_weight=utils.compute_class_weights(params.train_num_pre_label)
+    loss_fct = FocalLoss(alpha=class_weight, gamma=2)
+    if params.cuda:
+        loss_fct.to(device="cuda")
+
+    loss_fn = loss_fct#net.loss_fn
     metrics = net.metrics
     
     logging.info("Starting evaluation")
