@@ -19,12 +19,12 @@ A high-precision protein classification model
 
 # 项目结构
 * data/
-*    train/
-*    val/
-*    test/
+    *    train/
+    *    val/
+    *    test/
 * experiments/
 * model/
-*    *.py
+    *    *.py
 * collect_dataset.py
 * build_dataset.py
 * train.py
