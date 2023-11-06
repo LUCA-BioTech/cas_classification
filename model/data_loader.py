@@ -73,6 +73,7 @@ class DataLoader(object):
         else:
             seq_embed,seq_lable=self.extract_embeddings(df['label'],df['seq'])
             np.save(embed_file, seq_embed)
+            np.save(label_file, seq_lable)
             print('wite embed file')
 
         d['data'] = seq_embed
