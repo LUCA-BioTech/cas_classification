@@ -49,6 +49,6 @@ A high-precision protein classification model
 4. best_weights：最佳权重（基于预测准确性）
 
 # 运行
-1. collect_dataset.py
-2. build_dataset.py
+1. collect_dataset.py (注意修改成你自己的NCBI账号)
+2. build_dataset.py （train：val：test=8:1:1）
 3. python train.py --model_dir experiments/esm_650M
