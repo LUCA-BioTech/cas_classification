@@ -198,7 +198,7 @@ if __name__ == '__main__':
         loss_fct.to(device="cuda")
 
     # fetch loss function and metrics
-    loss_fn = loss_fct#net.loss_fn
+    loss_fn = loss_fct #net.loss_fn
     metrics = net.metrics
 
     # Train the model

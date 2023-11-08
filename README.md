@@ -16,6 +16,12 @@ A high-precision protein classification model
 | cas10  | 1.0 |
 | cas12  | 1.0 |
 | cas13  | 0.93 |
+不同模型的精度
+|                      |   accuracy |       loss |
+|:---------------------|-----------:|-----------:|
+| experiments/esm_650M |   0.998667 | 0.00010386 |
+| experiments/esm_15B  |   0.9988   | 0.00428334 |
+| experiments/esm_3B   |   0.9992   | 0.00305734 |
 
 # 项目结构
 * data/

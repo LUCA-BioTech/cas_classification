@@ -1,12 +1,13 @@
 {
     "learning_rate": 0.01,
     "batch_size": 1000,
-    "num_epochs": 100,
+    "num_epochs": 50,
 
     "embedding_dim": 2560,
     "hidden_dim": 1280,
     "number_of_class":12,
-
+    "train_num_pre_label":[23478,16666,15641,7014,13277,15521,12758,5988,6612,3511,572,471],
+    
     "save_summary_steps": 100,
 
     "embeding_model_name":"esm2_t36_3B_UR50D",
