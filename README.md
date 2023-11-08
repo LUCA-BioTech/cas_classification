@@ -1,7 +1,7 @@
 # cas_classification
 A high-precision protein classification model
 
-1. 不同Crispr cas蛋白分类精度
+不同Crispr cas蛋白分类精度
 |  cas类别   | 精度  |
 |  ----  | ----  |
 | cas1  | 0.99 |
@@ -17,11 +17,10 @@ A high-precision protein classification model
 | cas12  | 1.0 |
 | cas13  | 0.93 |
 
-
-2. 不同模型的精度
+不同模型的精度
 |                      |   accuracy |       loss |
 |:---------------------|-----------:|-----------:|
-| experiments/esm_650M |   0.998667 | 0.00010386 |
+| experiments/esm_650M |   0.998067 | 0.00729729 |
 | experiments/esm_15B  |   0.9988   | 0.00428334 |
 | experiments/esm_3B   |   0.9992   | 0.00305734 |
 
