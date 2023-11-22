@@ -2,7 +2,7 @@ import os
 import re
 import pyfaidx
 import yaml
-import utils.constants as constants
+import simple_utils.constants as constants
 
 def load_yaml(path):
     with open(path, 'r') as file:
