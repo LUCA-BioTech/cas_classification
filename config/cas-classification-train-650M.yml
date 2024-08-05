@@ -1,0 +1,29 @@
+# dataset
+train_dataset_dir:
+validate_dataset_dir:
+random_seed: 42
+
+# labels
+label_file:
+
+# training
+num_train_epochs: 15
+learning_rate: 0.00001
+min_learning_rate: 0
+max_train_steps:
+micro_train_batch_size: 12
+eval_batch_size: 12
+gradient_checkpointing: false
+gradient_accumulation_steps: 0
+weight_decay: 0.0001
+save_steps: 0
+num_warmup_steps: 1000
+logging_steps: 200
+loss_fn: focal
+
+logging_dir: ./logs
+wandb_project: esm2_classification_cas_650M
+
+model_name:
+max_seq_len: 1400
+checkpoint:
