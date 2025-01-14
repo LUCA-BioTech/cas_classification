@@ -1,0 +1,2 @@
+Predicted-protein-structure-by-Alphafold
+We predicted the 3D structure of Cas12 candidate proteins by Alphafold2 with default parameter.
