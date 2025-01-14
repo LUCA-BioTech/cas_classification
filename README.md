@@ -4,7 +4,7 @@
 Cas_classification and Trans_active
 
 ## Requirements
-`` 
+```
 conda env create -f cas_llm.yml
 ```
 
@@ -19,36 +19,36 @@ Run `collect_dataset.py` to fetch the CRISPR-associated protein dataset.
 $ python esm2_classification.py
 
 optional arguments:
-    parser.add_argument('--train_dataset_dir', type=str, help='train datasets directory that includes FASTA files named according to their labels')
-    parser.add_argument('--eval_dataset_dir', type=str, required=True, help='eval datasets directory that includes FASTA files named according to their labels')
-    parser.add_argument('--label_file', type=str, help='label file for train/eval/predict')
-    parser.add_argument('-a', '--action', type=str, required=True, help='action', choices=["train", "eval", "predict", "export"])
-    parser.add_argument('--attention_strategy', type=str, help='calculation strategy for attention export', default=None, choices=["full-huge-storage-to-layer", "full-huge-storage-to-head", "2d", "3d-max", "3d-average", "3d-high_confidence_average"])
-    parser.add_argument('--attention_layers', nargs='+', type=str, help='layers for attention export, use "all" for all layers', default=[-3, -2, -1])
-    parser.add_argument('--attention_threshold', type=float, help='threshold for attention calculation')
-    parser.add_argument('--predict_head_mask', type=parse_head_mask, help='Mask to nullify selected heads of the self-attention modules. Mask values selected in [0, 1]: 1 indicates the head is not masked, 0 indicates the head is masked. examples: --predict_head_mask  "[0, 1, ... all heads ..., 1, 0]"  or --predict_head_mask "[[0, 1, ... all heads ..., 1, 0], ... all layers ..., [1, 0, ... all heads ..., 0, 1]]"')
-    parser.add_argument('-m', '--model_name', type=str, required=True, help='model name')
-    parser.add_argument('-l', '--max_seq_len', type=int, required=True, help='max sequence length')
-    parser.add_argument('-o', '--output_dir', type=str, help='output directory')
-    parser.add_argument('--num_train_epochs', type=int, help='number of epochs', default=1)
-    parser.add_argument('--learning_rate', type=float, help='learning rate', default=1e-5)
-    parser.add_argument('--min_learning_rate', type=float, help='min learning rate', default=0)
-    parser.add_argument('--max_train_steps', type=int, help='max_train_steps', default=None)
-    parser.add_argument('--micro_train_batch_size', type=int, help='train batch size per device', default=2)
-    parser.add_argument('--eval_batch_size', type=int, help='eval batch size per device', default=10)
-    parser.add_argument('--random_seed', type=int, help='random seed', default=42)
-    parser.add_argument('--gradient_checkpointing', action='store_true', help='gradient checkpointing')
-    parser.add_argument('--gradient_accumulation_steps', type=int, help='gradient accumulation steps', default=1)
-    parser.add_argument('--weight_decay', type=float, help='weight_decay', default=0.01)
-    parser.add_argument('--save_steps', type=int, help='save_steps', default=-1)
-    parser.add_argument('--num_warmup_steps', type=int, help='warmup steps', default=1000)
-    parser.add_argument('--logging_steps', type=int, help='logging_steps', default=100)
-    parser.add_argument('--logging_dir', type=str, help='logging_dir', default="./logs")
-    parser.add_argument('--output_file', type=str, help='predict/export output file')
-    parser.add_argument('--checkpoint', type=str, help="checkpoint for resume")
-    parser.add_argument('--loss_fn', type=str, help="Loss function", choices=["focal"])
-    parser.add_argument("--project", type=str, help="W&B project name", default="esm2_classification")
-    parser.add_argument('--local_rank', type=int, help='local rank', default=-1)
+    * parser.add_argument('--train_dataset_dir', type=str, help='train datasets directory that includes FASTA files named according to their labels')
+    * parser.add_argument('--eval_dataset_dir', type=str, required=True, help='eval datasets directory that includes FASTA files named according to their labels')
+    * parser.add_argument('--label_file', type=str, help='label file for train/eval/predict')
+    * parser.add_argument('-a', '--action', type=str, required=True, help='action', choices=["train", "eval", "predict", "export"])
+    * parser.add_argument('--attention_strategy', type=str, help='calculation strategy for attention export', default=None, choices=["full-huge-storage-to-layer", "full-huge-storage-to-head", "2d", "3d-max", "3d-average", "3d-high_confidence_average"])
+    * parser.add_argument('--attention_layers', nargs='+', type=str, help='layers for attention export, use "all" for all layers', default=[-3, -2, -1])
+    * parser.add_argument('--attention_threshold', type=float, help='threshold for attention calculation')
+    * parser.add_argument('--predict_head_mask', type=parse_head_mask, help='Mask to nullify selected heads of the self-attention modules. Mask values selected in [0, 1]: 1 indicates the head is not masked, 0 indicates the head is masked. examples: --predict_head_mask  "[0, 1, ... all heads ..., 1, 0]"  or --predict_head_mask "[[0, 1, ... all heads ..., 1, 0], ... all layers ..., [1, 0, ... all heads ..., 0, 1]]"')
+    * parser.add_argument('-m', '--model_name', type=str, required=True, help='model name')
+    * parser.add_argument('-l', '--max_seq_len', type=int, required=True, help='max sequence length')
+    * parser.add_argument('-o', '--output_dir', type=str, help='output directory')
+    * parser.add_argument('--num_train_epochs', type=int, help='number of epochs', default=1)
+    * parser.add_argument('--learning_rate', type=float, help='learning rate', default=1e-5)
+    * parser.add_argument('--min_learning_rate', type=float, help='min learning rate', default=0)
+    * parser.add_argument('--max_train_steps', type=int, help='max_train_steps', default=None)
+    * parser.add_argument('--micro_train_batch_size', type=int, help='train batch size per device', default=2)
+    * parser.add_argument('--eval_batch_size', type=int, help='eval batch size per device', default=10)
+    * parser.add_argument('--random_seed', type=int, help='random seed', default=42)
+    * parser.add_argument('--gradient_checkpointing', action='store_true', help='gradient checkpointing')
+    * parser.add_argument('--gradient_accumulation_steps', type=int, help='gradient accumulation steps', default=1)
+    * parser.add_argument('--weight_decay', type=float, help='weight_decay', default=0.01)
+    * parser.add_argument('--save_steps', type=int, help='save_steps', default=-1)
+    * parser.add_argument('--num_warmup_steps', type=int, help='warmup steps', default=1000)
+    * parser.add_argument('--logging_steps', type=int, help='logging_steps', default=100)
+    * parser.add_argument('--logging_dir', type=str, help='logging_dir', default="./logs")
+    * parser.add_argument('--output_file', type=str, help='predict/export output file')
+    * parser.add_argument('--checkpoint', type=str, help="checkpoint for resume")
+    * parser.add_argument('--loss_fn', type=str, help="Loss function", choices=["focal"])
+    * parser.add_argument("--project", type=str, help="W&B project name", default="esm2_classification")
+    * parser.add_argument('--local_rank', type=int, help='local rank', default=-1)
 ```
 
 For example:
