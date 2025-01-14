@@ -12,6 +12,7 @@ Cas classification and Trans_active
 ## Requirements
 ```
 conda env create -f cas_llm.yml
+conda env create -f trans_active
 ```
 
 ## General usage
