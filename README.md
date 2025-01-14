@@ -1,7 +1,13 @@
 
 # Overview
 
-Cas_classification and Trans_active
+Cas classification and Trans_active
+
+* esm2_classification.py  Cas classification code
+* trans_active 
+* compare Cas classification compare,support esm nakh prot_t5
+* Cas12 structure 
+* protein-embeddings attention visualize code
 
 ## Requirements
 ```
