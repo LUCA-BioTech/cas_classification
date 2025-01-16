@@ -1,0 +1,108 @@
+
+# Overview
+
+Cas classification and Cas12a trans-cleavage activity prediction
+
+### Cas classification:
+This project focuses on the classification of CRISPR-Cas system proteins. We obtained Cas protein sequences from the NCBI database and fine-tuned the ESM model to build an efficient prediction tool for accurately classifying different types of Cas proteins. This model can be utilized for in-depth studies of CRISPR system mechanisms and serves as a reference for the development of gene-editing tools.
+
+### Cas12a trans-cleavage activity prediction:
+Cas12a trans-cleavage activity prediction and visualization
+Small sample learning methods and results for Cas12a trans-cleavage activity prediction and visualization.
+Users need to set a path to save the visualization results.
+Three dimensionality reduction methods can be used for comparison, including 'umap', 'pca' and 'tsne'.
+Train and test data are provided, but only contain embeddings output by our fine-tuned ESM model for confidentiality and patent reasons.
+
+
+* file esm2_classification.py : Cas classification code
+* forder trans_active : Cas12a trans-cleavage activity prediction
+* forder compare : Cas classification compare , support esm nakh prot_t5
+* forder Cas12 structure : 3D structure of Cas12 candidate proteins
+* forder protein-embeddings : Attention visualize and TNE code
+
+## Requirements
+```
+conda env create -f cas_llm.yml
+conda env create -f trans_active
+```
+
+## General usage
+
+### Fetching data
+Run `collect_dataset.py` to fetch the CRISPR-associated protein dataset. 
+
+### train / eval / predict / export
+
+```
+$ python esm2_classification.py
+
+optional arguments:
+    * parser.add_argument('--train_dataset_dir', type=str, help='train datasets directory that includes FASTA files named according to their labels')
+    * parser.add_argument('--eval_dataset_dir', type=str, required=True, help='eval datasets directory that includes FASTA files named according to their labels')
+    * parser.add_argument('--label_file', type=str, help='label file for train/eval/predict')
+    * parser.add_argument('-a', '--action', type=str, required=True, help='action', choices=["train", "eval", "predict", "export"])
+    * parser.add_argument('--attention_strategy', type=str, help='calculation strategy for attention export', default=None, choices=["full-huge-storage-to-layer", "full-huge-storage-to-head", "2d", "3d-max", "3d-average", "3d-high_confidence_average"])
+    * parser.add_argument('--attention_layers', nargs='+', type=str, help='layers for attention export, use "all" for all layers', default=[-3, -2, -1])
+    * parser.add_argument('--attention_threshold', type=float, help='threshold for attention calculation')
+    * parser.add_argument('--predict_head_mask', type=parse_head_mask, help='Mask to nullify selected heads of the self-attention modules. Mask values selected in [0, 1]: 1 indicates the head is not masked, 0 indicates the head is masked. examples: --predict_head_mask  "[0, 1, ... all heads ..., 1, 0]"  or --predict_head_mask "[[0, 1, ... all heads ..., 1, 0], ... all layers ..., [1, 0, ... all heads ..., 0, 1]]"')
+    * parser.add_argument('-m', '--model_name', type=str, required=True, help='model name')
+    * parser.add_argument('-l', '--max_seq_len', type=int, required=True, help='max sequence length')
+    * parser.add_argument('-o', '--output_dir', type=str, help='output directory')
+    * parser.add_argument('--num_train_epochs', type=int, help='number of epochs', default=1)
+    * parser.add_argument('--learning_rate', type=float, help='learning rate', default=1e-5)
+    * parser.add_argument('--min_learning_rate', type=float, help='min learning rate', default=0)
+    * parser.add_argument('--max_train_steps', type=int, help='max_train_steps', default=None)
+    * parser.add_argument('--micro_train_batch_size', type=int, help='train batch size per device', default=2)
+    * parser.add_argument('--eval_batch_size', type=int, help='eval batch size per device', default=10)
+    * parser.add_argument('--random_seed', type=int, help='random seed', default=42)
+    * parser.add_argument('--gradient_checkpointing', action='store_true', help='gradient checkpointing')
+    * parser.add_argument('--gradient_accumulation_steps', type=int, help='gradient accumulation steps', default=1)
+    * parser.add_argument('--weight_decay', type=float, help='weight_decay', default=0.01)
+    * parser.add_argument('--save_steps', type=int, help='save_steps', default=-1)
+    * parser.add_argument('--num_warmup_steps', type=int, help='warmup steps', default=1000)
+    * parser.add_argument('--logging_steps', type=int, help='logging_steps', default=100)
+    * parser.add_argument('--logging_dir', type=str, help='logging_dir', default="./logs")
+    * parser.add_argument('--output_file', type=str, help='predict/export output file')
+    * parser.add_argument('--checkpoint', type=str, help="checkpoint for resume")
+    * parser.add_argument('--loss_fn', type=str, help="Loss function", choices=["focal"])
+    * parser.add_argument("--project", type=str, help="W&B project name", default="esm2_classification")
+    * parser.add_argument('--local_rank', type=int, help='local rank', default=-1)
+```
+
+For example:
+```
+# train a model
+accelerate launch --mixed_precision=fp16 \
+  --use_deepspeed --config_file config/deepspeed_config.yaml \
+  esm2_classification.py -a train --train_dataset_dir datasets/train \
+  --eval_dataset_dir datasets/validate \
+  -m /home/luca/.cache/huggingface/hub/models--facebook--esm2_t33_650M_UR50D \
+  -l 1560 \
+  --micro_train_batch_size 4 \
+  -o ./output \
+  --label_file config/labels.txt \
+  --num_train_epochs 5 --num_warmup_steps 500 --weight_decay 0.0001 \
+  --learning_rate 0.001
+
+# predict
+accelerate launch --mixed_precision=fp16 \
+ --use_deepspeed --config_file config/deepspeed_config.yaml \
+ esm2_classification.py -a predict \
+ --eval_dataset_dir datasets/test \
+ -m output/models--facebook--esm2_t33_650M_UR50D/2024-12-10_15-08-08/epoch_0 \
+ -l 1560 --label_file config/labels.txt \
+ --output_file 2024-12-10_15-08-08-epoch_0.csv
+
+# export attention
+accelerate launch --mixed_precision=fp16 \
+ --use_deepspeed --config_file config/deepspeed_config.yaml \
+ esm2_classification.py -a export \
+ --eval_dataset_dir datasets/export \
+ -m output/models--facebook--esm2_t33_650M_UR50D/2024-12-02_00-47-40/epoch_0/ \
+ -l 1560 --label_file config/labels.txt \
+ --output_dir export \
+ --eval_batch_size 1 \
+ --micro_train_batch_size 1 \
+ --attention_strategy full-huge-storage-to-layer \
+ --attention_threshold 0.05
+```
