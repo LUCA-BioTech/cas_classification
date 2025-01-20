@@ -71,7 +71,8 @@ optional arguments:
 
 For example:
 ```
-# train a model
+# Cas classification
+## train a model
 accelerate launch --mixed_precision=fp16 \
   --use_deepspeed --config_file config/deepspeed_config.yaml \
   esm2_classification.py -a train --train_dataset_dir datasets/train \
@@ -84,7 +85,7 @@ accelerate launch --mixed_precision=fp16 \
   --num_train_epochs 5 --num_warmup_steps 500 --weight_decay 0.0001 \
   --learning_rate 0.001
 
-# predict
+## predict
 accelerate launch --mixed_precision=fp16 \
  --use_deepspeed --config_file config/deepspeed_config.yaml \
  esm2_classification.py -a predict \
@@ -93,7 +94,7 @@ accelerate launch --mixed_precision=fp16 \
  -l 1560 --label_file config/labels.txt \
  --output_file 2024-12-10_15-08-08-epoch_0.csv
 
-# export attention
+## export attention
 accelerate launch --mixed_precision=fp16 \
  --use_deepspeed --config_file config/deepspeed_config.yaml \
  esm2_classification.py -a export \
@@ -105,4 +106,20 @@ accelerate launch --mixed_precision=fp16 \
  --micro_train_batch_size 1 \
  --attention_strategy full-huge-storage-to-layer \
  --attention_threshold 0.05
+
+# Cas12a trans-cleavage activity prediction
+## Code for training: pipeline.py
+Users need to set a path to save the visualization results. (The default save_path is None)
+Three dimensionality reduction methods can be used for comparison, including 'umap', 'pca' and 'tsne'. 
+Train and test data are provided, but only contain embeddings output by our fine-tuned ESM model for confidentiality and patent reasons.
+Models will be saved in folder 'AutoglounModels'; pca pickle files will be saved in folder 'AutoglounRd'; results will be saved in folder 'AutoglounLogs'.
+The running time is around 158 seconds for training process with 2 4090 GPUs. (Running pipeline with training and testing data and save all models for 2-15 dimensions.)
+Directly run pipeline.py under required environment.
+
+## Code for testing: test.py 
+We have prepared a model with one of the best performances along with the code and test.py will automatically read models and pca.pkl file in folder autogloun and pca respectively.
+Users need to put a .fasta file in the same folder with test.py and change the path in test.py for testing. 
+The running time is around 61 seconds for predicting trans-cleavage activity for test_data.fasta (14 protein sequences) with saved models and 2 4090 GPUs.
+We also prepared a test_data.fasta for testing. Directly run test.py under required environment. 0 indicate no trans-cleavage activity and 1 indicate with trans-cleavage activity.
+
 ```
