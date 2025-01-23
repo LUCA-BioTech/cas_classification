@@ -23,6 +23,8 @@ Train and test data are provided, but only contain embeddings output by our fine
 ## Requirements
 ```
 conda env create -f AIL-scan.yml
+
+The num_processes in config/deepspeed_config.yml should match the number of available GPUs.
 ```
 
 ## Cas classification General usage
