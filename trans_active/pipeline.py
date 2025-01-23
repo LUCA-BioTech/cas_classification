@@ -14,7 +14,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, roc_auc_sc
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-model_name = "facebook/esm2_t33_650M_UR50D"    (需要换成FT_ESM模型)
+model_name = "facebook/esm2_t33_650M_UR50D"   
 # Load the trained model from the checkpoint (make sure you point to the right directory)
 model = EsmModel.from_pretrained(model_name, output_hidden_states=True)
 tokenizer = EsmTokenizer.from_pretrained(model_name)

@@ -112,19 +112,30 @@ accelerate launch --mixed_precision=fp16 \
 ```
 
 ##  Cas12a trans-cleavage activity prediction General usage
+
+Small sample learning methods and results for Cas12a trans-cleavage activity prediction and visualization.
+
 ### Code for training: pipeline.py
 Users need to set a path to save the visualization results. (The default save_path is None)
 Three dimensionality reduction methods can be used for comparison, including 'umap', 'pca' and 'tsne'. 
-Train and test data are provided, but only contain embeddings output by our fine-tuned ESM model for confidentiality and patent reasons.
+Train and test data are provided, but only contain embeddings output by our fine-tuned ESM for confidentiality and patent reasons.
 Models will be saved in folder 'AutoglounModels'; pca pickle files will be saved in folder 'AutoglounRd'; results will be saved in folder 'AutoglounLogs'.
 The running time is around 158 seconds for training process with 2 4090 GPUs. (Running pipeline with training and testing data and save all models for 2-15 dimensions.)
-Directly run pipeline.py under required environment.
+Directly run pipeline.py under the required environment.
 
 ### Code for testing: test.py 
 We have prepared a model with one of the best performances along with the code and test.py will automatically read models and pca.pkl file in folder autogloun and pca respectively.
-Users need to put a .fasta file in the same folder with test.py and change the path in test.py for testing. 
-The running time is around 61 seconds for predicting trans-cleavage activity for test_data.fasta (14 protein sequences) with saved models and 2 4090 GPUs.
-We also prepared a test_data.fasta for testing. Directly run test.py under required environment. 0 indicate no trans-cleavage activity and 1 indicate with trans-cleavage activity.
+We provide 2 test sets for testing. One is newtest.csv which contains the two protein mentioned in our paper. (GMBC10.001_783__k119_63415_106 and GMBC10.008_184__k119_67936_25) The other is newtest1.csv which contains 14 protein sequences. The embeddings are output from the fine-tuned ESM.
+The running time is around 61 seconds for predicting trans-cleavage activity for newtest1.csv (14 protein sequences) with saved models and 2 4090 GPUs.
+Directly run test.py under the required environment. 0 indicates no trans-cleavage activity and 1 indicates with trans-cleavage activity. Change the "new_test_path" for different testing data and tasks.
+
+
+
+
+
+
+
+
 
 ```
 

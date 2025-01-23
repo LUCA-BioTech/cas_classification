@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import os
 import joblib
+import ast
 
 def get_embeddings(sequences, model, tokenizer, max_length, device, batch_size=8):
     """
@@ -114,7 +115,7 @@ def read_fasta(file_path):
 
 if __name__ == "__main__":
 
-    model_name = "facebook/esm2_t33_650M_UR50D"     (需要换成FTesm模型)
+    model_name = "facebook/esm2_t33_650M_UR50D"   
     # Load the trained model from the checkpoint (make sure you point to the right directory)
     model = EsmModel.from_pretrained(model_name, output_hidden_states=True)
     tokenizer = EsmTokenizer.from_pretrained(model_name)
@@ -132,18 +133,25 @@ if __name__ == "__main__":
     rd_transform = load_rd_transform(rd_transform_path)
 
 
-    fasta_file = "./test_data.fasta"    # Need to put the filename and path here for tested sequence
-    sequence_list = []
-    
-    seq_dict = read_fasta(fasta_file)
-    for seq_id, seq in seq_dict.items():
-        sequence_list.append(seq)
+#    fasta_file = "./test_data1.fasta"    # Need to put the filename and path here for tested sequence
+#    sequence_list = []
+
+#    seq_dict = read_fasta(fasta_file)
+#    for seq_id, seq in seq_dict.items():
+#        sequence_list.append(seq)
 
     # print(sequence_list)
-    embeddings = get_embeddings(sequence_list, model, tokenizer, max_length=1502, device=device)
+#    embeddings = get_embeddings(sequence_list, model, tokenizer, max_length=1502, device=device)
     # print(embeddings.shape)
+    new_test_path = './newtest.csv'
+    new_test_df = pd.read_csv(new_test_path)
+    embeddings = new_test_df['embeddings']  # List of protein sequences
+    embeddings = [np.array(ast.literal_eval(item)) for item in embeddings]
+    embeddings = np.array(embeddings)
 
     embeddings_reduced = rd_transform.transform(embeddings)
     predictions = test(cls_model, embeddings_reduced)
-    print(predictions)
+    for item1, item2 in zip(new_test_df['name'], predictions):
+        print(item1, item2)
+
     
